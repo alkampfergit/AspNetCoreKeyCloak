@@ -80,6 +80,7 @@ void ConfigureServices(WebApplicationBuilder builder)
 
 (KeyCloakConfiguration keycloak, PictureStoreConfiguration pictureStore) ConfigureConfiguration(WebApplicationBuilder builder)
 {
+    AddOverrideParentConfig(builder);
     builder.Services
         .Configure<PictureStoreConfiguration>(
             options => builder.Configuration.GetSection("PictureStore").Bind(options));
@@ -91,4 +92,22 @@ void ConfigureServices(WebApplicationBuilder builder)
     builder.Configuration.Bind("KeyCloak", keyCloakConfig);
 
     return (keyCloakConfig, pictureStoreConfig);
+}
+
+void AddOverrideParentConfig(WebApplicationBuilder builder)
+{
+    var directoryToCheck = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory).Parent;
+    Console.WriteLine("Starting to look override file PictureStore.json starting from directory {0}", AppDomain.CurrentDomain.BaseDirectory);
+    while (directoryToCheck != null)
+    {
+        string overrideFile = Path.Combine(directoryToCheck.FullName, "PictureStore.json");
+        if (File.Exists(overrideFile))
+        {
+            Console.WriteLine("Found override configuration file: {0}", overrideFile);
+            builder.Configuration.AddJsonFile(overrideFile);
+        }
+        directoryToCheck = directoryToCheck.Parent;
+    }
+
+    Console.WriteLine("No override configuration file PictureStore.json found starting from directory {0}", AppDomain.CurrentDomain.BaseDirectory);
 }
