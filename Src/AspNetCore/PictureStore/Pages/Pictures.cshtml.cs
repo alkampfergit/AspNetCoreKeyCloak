@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
@@ -7,6 +8,7 @@ using System.Security.Cryptography;
 
 namespace PictureStore.Pages
 {
+    [Authorize]
     public class PicturesModel : PageModel
     {
         private readonly PictureStoreContext _context;
