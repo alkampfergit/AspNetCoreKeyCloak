@@ -9,9 +9,10 @@ services:
       - 127.1.0.1:443:8443
   
     volumes:
-      - S:\secure\keycloak.codewrecks.com\cert.pem:/etc/x509/https/tls.crt
-      - S:\secure\keycloak.codewrecks.com\privkey.pem:/etc/x509/https/tls.key
+      - S:\Docker\keycloak\localdata\:/opt/jboss/keycloak/standalone/data
+      - C:\develop\certificates\keycloak.codewrecks.com\cert.pem:/etc/x509/https/tls.crt
+      - C:\develop\certificates\keycloak.codewrecks.com\privkey.pem:/etc/x509/https/tls.key
     
     environment:
       - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_PASSWORD=NnyAcsQpoA5fNeHBrSZ6yCZNo3w5
